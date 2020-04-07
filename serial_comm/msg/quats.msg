@@ -1,0 +1,3 @@
+geometry_msgs/Quaternion wrist_quat
+geometry_msgs/Quaternion shoulder_quat
+float32 elbow_angle_in_rad
