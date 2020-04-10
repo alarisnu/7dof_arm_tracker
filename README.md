@@ -1,5 +1,5 @@
 # 7dof_arm_tracker
-This repository contains files 3D CAD models and source code for 7 DOF arm tracker developed in ALARIS Lab at Nazarbayev University.  
+This repository contains 3D CAD models and source code for 7 DOF arm tracker developed in ALARIS Lab at Nazarbayev University.  
 The code is written to run on ROS and was tested on ROS Kinetic, but should be compatible with later versions of ROS as well. To install ROS follow installation instructions on [ros.org](http://handlebarsjs.com/).
 
 ## How to set up WIXEL
