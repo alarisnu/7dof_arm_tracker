@@ -33,9 +33,7 @@ def callback(quat):
     q_lower = Quaternion(axis=(0.0, 0.0, 1.0), radians=elbow_angle_in_rad)
     elements_l = q_lower.elements
 
-    # Wrist does not need to be rotated. However, IMU drifts due to, I think, bad calibration of magnetometer 
     q_wrist = Quaternion(wrist.w, wrist.z, wrist.x, wrist.y)
-    #q_wrist = Quaternion(wrist.w, wrist.x, wrist.y, wrist.z)
     rot_w_y = Quaternion(w=0.707, x=0.0, y=0.707, z=0.0)
     rot_w_x = Quaternion(w=0.707, x=0.707, y=0.0, z=0.0)
     q_wrist = rot_w_x*rot_w_y*q_wrist*rot_w_y.inverse*rot_w_x.inverse
@@ -66,9 +64,6 @@ def callback(quat):
         ret, posb = vrep.simxGetObjectPosition(clientID, joint_handles[0], -1, vrep.simx_opmode_buffer)
         ret, pos = vrep.simxGetObjectPosition(clientID, joint_handles[4], -1, vrep.simx_opmode_streaming)
         print(pos)
-        # pos[0] = pos[0]-posb[0]
-        # pos[1] = pos[1]-posb[1]
-        # pos[2] = pos[2]-posb[2]
 
         end_eff = [pos[0], pos[1], pos[2], q[3], q[0], q[1], q[2]]
         end_eff_data = Float32MultiArray()
@@ -95,18 +90,14 @@ def listener():
         vrep.simxSetFloatingParameter(clientID, vrep.sim_floatparam_simulation_time_step, dt, vrep.simx_opmode_oneshot)
         vrep.simxStartSimulation(clientID,vrep.simx_opmode_blocking)
 
-        # Wrist position and orientation. To be sent to UR5. First call
+        # Wrist position and orientation
         q=vrep.simxGetObjectQuaternion(clientID, joint_handles[4], -1, vrep.simx_opmode_streaming)
         pos=vrep.simxGetObjectPosition(clientID, joint_handles[4], joint_handles[0], vrep.simx_opmode_streaming)
 
     rospy.Subscriber("/quats", quats, callback)
 
-    # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
-    # Before closing the connection to V-REP, make sure that the last command sent out had time to arrive.
-    # You can guarantee this with (for example):
     vrep.simxGetPingTime(clientID)
-    # Now close the connection to V-REP:
     vrep.simxFinish(clientID)
 
 if __name__ == '__main__':
