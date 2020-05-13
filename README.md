@@ -30,15 +30,28 @@ Create a ROS workspace. In a terminal window run:
 `cd ~/catkin_ws/`  
 `catkin_make`  
 
-Put the ***serial_comm*** folder into ***catkin_ws/src*** folder.  
-Run the following command from workspace root directory: `rosdep install --from-paths src --ignore-src -r -y`  
-Run **catkin_make** from workspace root directory to build the code.
+* Put the ***serial_comm*** folder into ***catkin_ws/src*** folder.  
+* Run the following command from workspace root directory to install missing dependencies: `rosdep install --from-paths src --ignore-src -r -y`  
+* Run **catkin_make** from workspace root directory to build the code.
 
-Change mod of ***controller_node.py*** to *'executable'* with `chmod +x controller_node.py` to be able to run the program.  
-Add yourself to `dialout` group with command `sudo adduser $USER dialout`. Log out and log in again for the command to take effect. This is needed for you to have the rights to open serial ports.  
-Assign to tracker ports static port names as in *serial_comm.cpp* lines 36-38. Specifically, call them *port_shoulder, port_elbow, port_wrist*. To find out which port belongs to which sensor use `sudo cat /dev/ttyACMx`, with `x` replaced by port number, to start listening to the port, then turn on each sensor one by one and observe. Then follow [this](https://msadowski.github.io/linux-static-port/") guide to link every port to a static name. For assurance, after finishing the guide unplug and plug in the USB hub and check  with `ls /dev | grep port_` if there are corresponding ports.
+* Change mod of ***controller_node.py*** to *'executable'* with `chmod +x controller_node.py` to be able to run the program.  
+* Add yourself to `dialout` group with command `sudo adduser $USER dialout`. Log out and log in again for the command to take effect. This is needed for you to have the rights to open serial ports.  
+* Assign to tracker ports static port names as in ***serial_comm/src/serial_comm.cpp*** lines 36-38. Specifically, call them *port_shoulder, port_elbow, port_wrist*. To find out which port belongs to which sensor use `sudo cat /dev/ttyACMx`, with `x` replaced by port number, to start listening to the port, then turn on each sensor one by one and observe if there is a feedback.
+* Then follow [this](https://msadowski.github.io/linux-static-port) guide to link every port to a static name. As device attribute (ATTRS) use Wixel's serial number.
+* After finishing the guide unplug and plug in the USB hub with Wixels and check  with `ls /dev | grep port_` if there are corresponding ports.
 
-Finally, you will need to install [CoppeliaSim](https://www.coppeliarobotics.com/)
+Finally, you will need to install [CoppeliaSim](https://www.coppeliarobotics.com/) to run the arm simulation.
 
 ## Run the code
-TODO
+1. Run CoppeliaSim
+2. Open scene ***serial_comm/simple_arm.ttt***
+3. Start *roscore*
+4. Read sensors raw data and compute quaternions: `rosrun serial_comm serial_comm`  
+For estimating quaternions we use IMU and AHRS sensor fusion algorithm by Sebastian Madgwick from [here](https://x-io.co.uk/open-source-imu-and-ahrs-algorithms/)
+5. Send estimated quaternions to arm joints in CoppeliaSim and get end-effector pose: `rosrun serial_comm controller_node.py`  
+End-effector pose is published to topic */end_effector*
+6. Magdwick algorithm needs some time to converge. Wait until it converges and initialize it with `rostopic pub /initialize std_msgs/String "data: 'init'" -1`
+7. Done.
+
+Note: Depending on presense of metal in the environment, which disturbs magnetometer, the algorithm will give shifted quaternions. Tune orientation by playing with quaternions in **controller_node.py**.
+
