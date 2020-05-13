@@ -53,5 +53,5 @@ End-effector pose is published to topic */end_effector*
 6. Magdwick algorithm needs some time to converge. Wait until it converges and initialize it with `rostopic pub /initialize std_msgs/String "data: 'init'" -1`
 7. Done.
 
-Note: Depending on presense of metal in the environment, which disturbs magnetometer, the algorithm will give shifted quaternions. Tune orientation by playing with quaternions in **controller_node.py**.
+Note: Depending on presense of metal in the environment, which disturbs magnetometer, the algorithm will give shifted quaternions. Tune orientation by playing with quaternions in **controller_node.py** lines 24-46.
 
