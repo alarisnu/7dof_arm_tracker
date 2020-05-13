@@ -4,8 +4,7 @@ The code is written to run on ROS and was tested on ROS Kinetic, but should be c
 
 ## How to set up WIXEL
 
-### Install the following software to configure Wixel:
-1. Pololu Wixel Configuration Utility - it can be downloaded [here](https://www.pololu.com/product/1336/resources)
+0. Install Pololu Wixel Configuration Utility - it can be downloaded [here](https://www.pololu.com/product/1336/resources)
  
 ### Follow these steps to upload programs to Wixel
 1. Connect the Wixel controller to the PC via the USB port.
