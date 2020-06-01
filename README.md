@@ -1,8 +1,8 @@
 # 7dof_arm_tracker
 This repository contains 3D CAD models and source code for 7 DOF arm tracker developed in ALARIS Lab at Nazarbayev University. For more information see [link](https://www.alaris.kz/research/intelligent_assist_system/)  
 
-Please cite the below work if you utilize our arm tracker design in your academic work:  
-#### *Shintemirov, A.; Taunyazov, T.; Omarali, B.; Nurbayeva, A.; Kim, A.; Bukeyev, A.; Rubagotti, M.* **An Open-Source 7-DOF Wireless Human Arm Motion-Tracking System for Use in Robotics Research.** *Sensors* 2020, 20, 3082. ([link](https://www.mdpi.com/1424-8220/20/11/3082))
+Please cite the below work if you utilize our arm tracker design in your academic work:
+### *Shintemirov, A.; Taunyazov, T.; Omarali, B.; Nurbayeva, A.; Kim, A.; Bukeyev, A.; Rubagotti, M.* **An Open-Source 7-DOF Wireless Human Arm Motion-Tracking System for Use in Robotics Research.** *Sensors* 2020, 20, 3082. ([link](https://www.mdpi.com/1424-8220/20/11/3082))  
 
 The code is written to run on ROS and was tested on ROS Kinetic, but should be compatible with later versions of ROS as well. To install ROS, follow installation instructions on [ros.org](http://handlebarsjs.com/).
 
